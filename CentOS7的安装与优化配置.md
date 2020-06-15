@@ -58,7 +58,8 @@ systemctl start tmp.mount
  yum -y install lrzsz  
  yum -y install bash-completion.noarch  
  yum -y install lsof  
- yum -y install unzip  
+ yum -y install unzip
+ yum -y install zip
  ```
 
 
