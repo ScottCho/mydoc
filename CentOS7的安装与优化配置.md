@@ -120,7 +120,8 @@ Banner /etc/issue.net
 ##### 4.3 配置登录前的警告信息
 
   ```bash
-echo Authorized uses only. All activity  may be monitored and reported. > /etc/issue.net echo Authorized uses only. All activity  may be monitored and reported. > /etc/issue  
+echo Authorized uses only. All activity  may be monitored and reported. > /etc/issue.net 
+echo Authorized uses only. All activity  may be monitored and reported. > /etc/issue  
   ```
 
 
