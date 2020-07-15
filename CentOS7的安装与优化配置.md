@@ -22,7 +22,8 @@
 设置开机自动挂载
 
 ```bash
- systemctl unmask tmp.mount   systemctl enable tmp.mount
+ systemctl unmask tmp.mount   
+ systemctl enable tmp.mount
 ```
 
 编辑/etc/systemd/system/local-fs.target.wants/tmp.mount，设置挂载参数
@@ -55,11 +56,12 @@ systemctl start tmp.mount
  ```bash
  yum -y install expect  
  yum -y install vim  
- yum -y install lrzsz  
- yum -y install bash-completion.noarch  
+ yum -y install lrzsz    
  yum -y install lsof  
  yum -y install unzip
  yum -y install zip
+ yum -y install bash-completion.noarch
+ yum -y install epel-release.noarch
  ```
 
 
@@ -315,9 +317,45 @@ vim + /etc/audit/auditd.conf
 
 
 
-#### 七、安装AIDE文件完整性检测
+#### 七、 Cron配置
 
-##### 7.1 安装
+##### 7.1  文件权限配置
+
+```bash
+ chown root:root /etc/crontab
+ chmod og-rwx /etc/crontab
+ chown root:root /etc/cron.hourly
+ chmod og-rwx /etc/cron.hourly
+ chown root:root /etc/cron.daily
+ chmod og-rwx /etc/cron.daily
+ chown root:root /etc/cron.weekly
+ chmod og-rwx /etc/cron.weekly
+ chown root:root /etc/cron.monthly
+ chmod og-rwx /etc/cron.monthly
+ chown root:root /etc/cron.d
+ chmod og-rwx /etc/cron.d  
+```
+
+
+
+##### 7.2 确保at/cron仅限授权用户使用
+
+```bash
+rm -f /etc/cron.deny
+rm -f /etc/at.deny
+touch /etc/cron.allow
+touch /etc/at.allow
+chmod og-rwx /etc/cron.allow
+chmod og-rwx /etc/at.allow
+chown root:root /etc/cron.allow
+chown root:root /etc/at.allow
+```
+
+
+
+#### 八、安装AIDE文件完整性检测
+
+##### 8.1 安装
 
 ```bash
   yum -y install aide  aide –init  
@@ -326,7 +364,7 @@ vim + /etc/audit/auditd.conf
 
 #####  
 
-##### 7.2 配置自动任务
+##### 8.2 配置自动任务
 
 ```bash
  crontab -u root -e
@@ -335,6 +373,31 @@ vim + /etc/audit/auditd.conf
 ```
 
 
+
+
+
+常用的软件安装
+
+安装cockpit
+
+```bash
+yum install cockpit* -y
+systemctl start cockpit.service
+systemctl enable cockpit.service
+```
+
+访问地址：https://IP:9090
+
+修改默认端口9090
+vim /usr/lib/systemd/system/cockpit.socket
+
+重启
+
+```bash
+sudo systemctl daemon-reload
+sudo systemctl restart cockpit.socket
+systemctl restart cockpit.service
+```
 
 
 
